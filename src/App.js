@@ -17,7 +17,14 @@ function App() {
 	const [cart, setCart] = useState([]);
 
 	const addItem = item => {
-		setCart([...cart,item])
+		const newItem = {
+		id: Date.now(),
+		title: item.title,
+		price: item.price,
+		image: item.image
+		};	
+	
+		setCart([...cart,newItem]);
 
 	};
 	const removeItem = items => {
