@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import { Route } from 'react-router-dom';
 import data from './data';
+//Contexts
+
+import ProductContext from './contexts/ProductContext';
+import CartContext from './contexts/CartContext';
 
 // Components
 import Navigation from './components/Navigation';
@@ -12,29 +16,32 @@ function App() {
 	const [cart, setCart] = useState([]);
 
 	const addItem = item => {
-		// add the given item to the cart
+		setCart([...cart,item])
+
 	};
+
+	const Provider = ProductContext.Provider;
+	const CartProvider = CartContext.Provider;
 
 	return (
 		<div className="App">
-			<Navigation cart={cart} />
+			<Provider value={{products, addItem}}>
+				<CartProvider value={[cart]}>
+			<Navigation />
 
 			{/* Routes */}
 			<Route
 				exact
 				path="/"
-				render={() => (
-					<Products
-						products={products}
-						addItem={addItem}
-					/>
-				)}
+				component={Products}
 			/>
 
 			<Route
 				path="/cart"
-				render={() => <ShoppingCart cart={cart} />}
+				render={() => <ShoppingCart />}
 			/>
+			</CartProvider>
+		</Provider>
 		</div>
 	);
 }
